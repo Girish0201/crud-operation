@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": "9a929b11-1b03-47da-a61f-6037bc8b4ec4",
+      "name": "Ervin Howell",
+      "email": "Shanna@melissa.tv",
+      "phone": "010-692-6593 "
+    },
+    {
+      "id": "566b1c39-da36-47c5-a637-903eced46de2",
+      "name": "Clementine Bauch",
+      "email": "Nathan@yesenia.net",
+      "phone": "493-170-9623 "
+    },
+    {
+      "id": "b60b1154-3bd7-4286-8780-f769ea0cd121",
+      "name": "Leanne Graham         ",
+      "email": "Sincere@april.biz",
+      "phone": " 1-770-736-8031"
+    }
+  ]
+}
