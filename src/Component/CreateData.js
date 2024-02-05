@@ -1,14 +1,16 @@
 import axios from 'axios'
 import React ,{useState} from 'react'
 import  {useNavigate,Link} from "react-router-dom"
-import {v4 as uuidv4} from 'uuid'
+
+
 
 const CreateData = () => {
     const [userData,setUserData] = useState({ 
-       id : uuidv4(),
+
        name : "",
        email: "", 
-       phone: ""
+       phone: "",
+       skills : ""
     })
 
     const navigate = useNavigate()
@@ -18,7 +20,7 @@ const CreateData = () => {
 
     const handleSubmit =async (e) => {
       e.preventDefault() 
-      const response = await axios.post("http://localhost:8000/users", userData) 
+      const response = await axios.post("https://65c0651425a83926ab963d84.mockapi.io/student/users", userData) 
       console.log(response) 
       alert("Added a user")
       navigate("/")
@@ -55,6 +57,14 @@ const CreateData = () => {
             <input  id = "phone" type = "phone"  required className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 px-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 " 
              placeholder='enter your phone no'
             onChange = {e => setUserData({...userData, phone:e.target.value})}
+            />
+            
+          </div>
+          <div className='mb-2'>
+            <label htmlFor = "name">Skills:</label>
+            <input  id = "phone" type = "phone"  required className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 px-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 " 
+             placeholder='enter your phone no'
+            onChange = {e => setUserData({...userData, skills:e.target.value})}
             />
             
           </div>

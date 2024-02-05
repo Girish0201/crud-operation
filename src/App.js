@@ -7,7 +7,8 @@ import UpdateData from './Component/UpdateData'
 
 const App = () => {
   return (
-    <>
+    <div className='sm:mt-5 md:mt-10 p-5 w-screen h-screen px-4'>
+      <h1 className='md:text-5xl font-serif font-semi-bold text-center text-2xl'>Crud Operation </h1>
           <BrowserRouter>
             <Routes>
               <Route path = "/" element = {<StudentData />} />
@@ -17,7 +18,7 @@ const App = () => {
 
             </Routes>
           </BrowserRouter>
-    </>
+    </div>
 
 
   )

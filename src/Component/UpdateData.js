@@ -1,76 +1,141 @@
 import React, {useState,useEffect} from 'react'
 import axios from 'axios'
-import { useParams,Link ,useNavigate} from 'react-router-dom' 
+
+import { Link, useParams,useNavigate} from "react-router-dom"
+import { ThreeDots } from 'react-loader-spinner'
+
+
+const apiStatusConstants = {
+  initial: "INITIAL",
+  inProgress: "IN_PROGRESS",
+  success: "SUCCESS",
+  failure: "FAILURE",
+ }
 
 const UpdateData = () => {
-  const [userData,setUserData] = useState({
-    name:"",
-    email:"",
-    phone:""
-  })
+
+  const [userData,setUserData]=useState({StudentData:{name:"",email:"",phone:"",skills:""},apiStatus:apiStatusConstants.inProgress})
+ 
+  const navigate=useNavigate() 
+  const {id} = useParams()
+
+
   
+  const getUpdateFormDetails=async()=>{
+     
+      const response =await axios.get(`https://65c0651425a83926ab963d84.mockapi.io/student/users/${id}`) 
+    //  console.log(response)
+      const data=response.data   
+      console.log(response.data)
+     
+     setUserData({...userData,StudentData:{...data},apiStatus:apiStatusConstants.initial})
 
-  const {id } = useParams() 
-  const navigate = useNavigate()
-  
-  
-
- useEffect(() => {
-  axios.get(`http://localhost:8000/users/${id}`)
-  .then(res => setUserData(res.data))
- },[id])
-
-
- const handleUpdate = (e) => {
-  e.preventDefault()
-  axios.put("http://localhost:8000/users/"+id,userData)
-  .then(res =>
     
-    alert("Updated Succesfully"),
-    navigate("/")
+  }
+
+
+  console.log(userData.StudentData)
+  const onSubmitForm=async(event)=>{
+      event.preventDefault()
+      setUserData({...userData,apiStatus:apiStatusConstants.inProgress})
+      const newObject={...userData.StudentData}
+      const response=await axios.put(`https://65c0651425a83926ab963d84.mockapi.io/student/users/${id}`,newObject)
+      if (response.status===200){
+        setUserData({...userData,apiStatus:apiStatusConstants.success})
+          navigate("/")
+      }
+      else{
+          setUserData({...userData,apiStatus:apiStatusConstants.failure})
+      }
+
+  }
+
+  useEffect(()=>{
+    getUpdateFormDetails();
+        // eslint-disable-next-line
+  },[id]) 
+ 
+  
+  const renderLoadingView=()=>(<div className="w-full flex justify-center">
+    <ThreeDots
+      visible={true}
+      height="50"
+      width="50"
+      color="#4fa94d"
+      radius="9"
+      ariaLabel="three-dots-loading"
+      wrapperStyle={{}}
+      wrapperClass=""
+    />
+    </div>)  
+
+
+    const renderFailureView = () => (
+      <div className='flex justify-center items-center w-full'>
+        <p className=' text-2xl font-bold text-center'>404 error , hence update is failed </p>
+      </div>
     )
-    .catch (err => console.log(err))
+
+   
 
 
- }
+
+
 
   return (
     <div className='flex justify-center items-center w-full h-screen '>
-      <div className='w-2/6 bg-white shadow-md px-6 pt-3 pb-6 rounded-md border'> 
+      <div className='w-4/6 bg-white shadow-md px-6 pt-3 pb-6 rounded-md border'> 
         <h1 className='mb-2 text-xl font-large text-black text-center'>Update a User</h1> 
-        <form onSubmit = {handleUpdate}>
-          <div className='mb-2'>
-            <label htmlFor = "name">Name:</label>
-            <input  id = "name" type = "text"  required className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 px-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 " 
-            placeholder='Enter your Name'
-            value = {userData.name}
-            onChange = {e => setUserData({...userData, name:e.target.value})}
-             />
-            
-          </div>
-          <div className='mb-2'>
-            <label htmlFor = "email">Email:</label>
-            <input  id = "Email" type = "text"  required className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 px-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 "  
-            placeholder='enter your email'
-            value = {userData.email}
-             onChange = {e => setUserData({...userData, email:e.target.value})}
-            />
-            
-          </div>
-          <div className='mb-2'>
-            <label htmlFor = "name">Phone No:</label>
-            <input  id = "phone" type = "phone"  required className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 px-2 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 " 
-             placeholder='enter your phone no'
-             value = {userData.phone}
-            onChange = {e => setUserData({...userData, phone:e.target.value})}
-            />
-            
-          </div>
-          <div className='flex items-center mt-5'>
-            <button className='mr-3 bg-green-900 text-white rounded-md p-3 mr-3'>Update</button>
-            <Link to = {"/"} className='bg-gray-600 text-white rounded-md p-3' > Back</Link>
-          </div>
-        </form>
+        {userData.apiStatus === apiStatusConstants.inProgress && renderLoadingView()}  
+        {userData.apiStatus === apiStatusConstants.failure && renderFailureView()} 
+        <form className="w-full flex flex-col items-center" onSubmit={onSubmitForm} > 
+      <input
+        type="text"
+        placeholder="Name"
+        value={userData.StudentData.name}
+        name="name"
+        className="border-solid border-zinc-950 border-2 h-14 w-96 text-lg p-2 pl-3 m-1.5 outline-none"
+        required
+        onChange={e => setUserData({ ...userData,
+          StudentData:{...userData.StudentData,name:e.target.value}})}
+      />
+      <input
+        type="email"
+        placeholder="Email"
+        name="email"
+        value={userData.StudentData.email}
+        className="border-solid border-zinc-950 border-2 h-14 w-96 text-lg p-2 pl-3 m-1.5 mt-3 outline-none"
+        required
+        onChange={e => setUserData({ ...userData,
+          StudentData:{...userData.StudentData,email:e.target.value}})}
+      />
+      <input
+        type="number"
+        placeholder="Phone"
+        name="phone"
+        value={userData.StudentData.phone}
+        className="border-solid border-zinc-950 border-2 h-14 w-96 text-lg p-2 pl-3 m-1.5 mt-3 outline-none"
+        required
+        onChange={e => setUserData({ ...userData,
+          StudentData:{...userData.StudentData,phone:e.target.value}})}
+      />
+
+      <input
+        type="text"
+        placeholder="skills"
+        name="skills"
+        value={userData.StudentData.skills}
+        className="border-solid border-zinc-950 border-2 h-14 w-96 text-lg p-2 pl-3 m-1.5 mt-3 outline-none"
+        required
+        onChange={e => setUserData({ ...userData,
+          StudentData:{...userData.StudentData,skills:e.target.value}})}
+      />
+      <div className='flex items-center mt-5'>
+          <button className=' bg-green-900 text-white rounded-md p-3 mr-3'>Update</button>
+          <Link to = {"/"} className='bg-gray-600 text-white rounded-md p-3' > Back</Link>
+      </div> 
+      </form>
+    
  
       </div>
 
