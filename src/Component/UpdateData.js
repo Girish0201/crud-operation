@@ -83,53 +83,71 @@ const UpdateData = () => {
 
 
   return (
-    <div className='flex justify-center items-center w-full h-screen '>
-      <div className='w-4/6 bg-white shadow-md px-6 pt-3 pb-6 rounded-md border'> 
-        <h1 className='mb-2 text-xl font-large text-black text-center'>Update a User</h1> 
+    <div className='flex justify-center items-center w-full h-screen  mx-auto'> 
+      <div className='w-1/2 bg-white shadow-md px-3 pt-3 pb-6 rounded-md border md:px-6 mb-4 '> 
+        <h1 className='mb-8 md:text-4xl font-large text-black text-center text-xl'>Update a User</h1> 
         {userData.apiStatus === apiStatusConstants.inProgress && renderLoadingView()}  
         {userData.apiStatus === apiStatusConstants.failure && renderFailureView()} 
-        <form className="w-full flex flex-col items-center" onSubmit={onSubmitForm} > 
-      <input
-        type="text"
-        placeholder="Name"
-        value={userData.StudentData.name}
-        name="name"
-        className="border-solid border-zinc-950 border-2 h-14 w-96 text-lg p-2 pl-3 m-1.5 outline-none"
-        required
-        onChange={e => setUserData({ ...userData,
-          StudentData:{...userData.StudentData,name:e.target.value}})}
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        name="email"
-        value={userData.StudentData.email}
-        className="border-solid border-zinc-950 border-2 h-14 w-96 text-lg p-2 pl-3 m-1.5 mt-3 outline-none"
-        required
-        onChange={e => setUserData({ ...userData,
-          StudentData:{...userData.StudentData,email:e.target.value}})}
-      />
-      <input
-        type="number"
-        placeholder="Phone"
-        name="phone"
-        value={userData.StudentData.phone}
-        className="border-solid border-zinc-950 border-2 h-14 w-96 text-lg p-2 pl-3 m-1.5 mt-3 outline-none"
-        required
-        onChange={e => setUserData({ ...userData,
-          StudentData:{...userData.StudentData,phone:e.target.value}})}
-      />
+        <form className="w-full flex flex-col items-center" onSubmit={onSubmitForm} >  
+           <div className='mb-2 flex flex-col'> 
+              <label className='text-lg text-left font-bold capitalize'>Name</label>
+              <input
+              type="text"
+              placeholder="Name"
+              value={userData.StudentData.name}
+              name="name"
+              className="border-solid border-zinc-950 border-2 h-14 w-64 text-lg p-2 pl-3 m-1.5 outline-none md:w-96"
+              required
+              onChange={e => setUserData({ ...userData,
+                StudentData:{...userData.StudentData,name:e.target.value}})}
+            />
+            </div> 
+        <div className='mb-2 flex flex-col'> 
+          <label className="text-lg text-left font-bold capitalize">Email</label>
+              <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            value={userData.StudentData.email}
+            className="border-solid border-zinc-950 border-2 h-14 w-64  md:w-96 text-lg p-2 pl-3 m-1.5 mt-3 outline-none"
+            required
+            onChange={e => setUserData({ ...userData,
+              StudentData:{...userData.StudentData,email:e.target.value}})}
+            />
+        </div> 
+        <div className='mb-2 flex flex-col'> 
+          <label className=' text-lg text-left font-bold capitalize'>Mobile No:</label>
+            <input
+            type="number"
+            placeholder="Phone"
+            name="phone"
+            value={userData.StudentData.phone}
+            className="border-solid border-zinc-950 border-2 h-14 w-64 md:w-96 text-lg p-2 pl-3 m-1.5 mt-3 outline-none"
+            required
+            onChange={e => setUserData({ ...userData,
+              StudentData:{...userData.StudentData,phone:e.target.value}})}
+          />
 
-      <input
-        type="text"
-        placeholder="skills"
-        name="skills"
-        value={userData.StudentData.skills}
-        className="border-solid border-zinc-950 border-2 h-14 w-96 text-lg p-2 pl-3 m-1.5 mt-3 outline-none"
-        required
-        onChange={e => setUserData({ ...userData,
-          StudentData:{...userData.StudentData,skills:e.target.value}})}
-      />
+        </div> 
+        <div className='mb-2 flex flex-col'>
+          <label className=' text-lg text-left font-bold capitalize'>Skills</label>
+          <input
+            type="text"
+            placeholder="skills"
+            name="skills"
+            value={userData.StudentData.skills}
+            className="border-solid border-zinc-950 border-2 h-14 w-64 md:w-96 text-lg p-2 pl-3 m-1.5 mt-3 outline-none"
+            required
+            onChange={e => setUserData({ ...userData,
+              StudentData:{...userData.StudentData,skills:e.target.value}})}
+          />
+        </div>
+      
+        
+     
+      
+     
+    
       <div className='flex items-center mt-5'>
           <button className=' bg-green-900 text-white rounded-md p-3 mr-3'>Update</button>
           <Link to = {"/"} className='bg-gray-600 text-white rounded-md p-3' > Back</Link>

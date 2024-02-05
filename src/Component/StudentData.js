@@ -145,7 +145,7 @@ const StudentData = ( ) => {
             return renderFailureView()
          case apiStatusConstants.empty:
             return (
-            <div className='w-full flex flex-col items-center justify-center mt-4 text-center overflow-x-auto'>
+            <div className='w-full flex flex-col items-center justify-center mt-4 text-center sm:overflow-x-auto md:overflow-x-auto'>
                 <h2 className='text-xl font-serif font-semibold text-gray-800'>No List of User </h2>
                 <p className='text-l font-serif font-medium '>Add a user by click the add user button</p>
             </div>
